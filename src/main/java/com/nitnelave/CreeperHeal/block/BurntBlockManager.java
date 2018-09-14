@@ -14,9 +14,9 @@ import java.util.*;
 
 /**
  * Manager to handle the burnt blocks.
- * 
+ *
  * @author nitnelave
- * 
+ *
  */
 public abstract class BurntBlockManager
 {
@@ -24,7 +24,7 @@ public abstract class BurntBlockManager
     /*
      * The list of burnt blocks waiting to be replaced.
      */
-    private static List<CreeperBurntBlock> burntList = new LinkedList<CreeperBurntBlock>();
+    private static List<CreeperBurntBlock> burntList = new LinkedList<>();
     /*
      * If the plugin is not in lightweight mode, the list of recently burnt
      * blocks to prevent them from burning again soon.
@@ -39,33 +39,19 @@ public abstract class BurntBlockManager
     public static void init()
     {
         if (CreeperConfig.getInt(CfgVal.WAIT_BEFORE_BURN_AGAIN) > 0)
-            recentlyBurnt = new HashMap<Location, Date>();
+            recentlyBurnt = new HashMap<>();
         if (CreeperConfig.getBool(CfgVal.LEAVES_VINES))
             fireIndex = new NeighborFire();
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(CreeperHeal.getInstance(), new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                cleanUp();
-            }
-        }, 300, 7200);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(CreeperHeal.getInstance(), BurntBlockManager::cleanUp, 300, 7200);
 
-        Bukkit.getScheduler().runTaskTimer(CreeperHeal.getInstance(), new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                replaceBurnt();
-            }
-        }, 0, 20);
+        Bukkit.getScheduler().runTaskTimer(CreeperHeal.getInstance(), BurntBlockManager::replaceBurnt, 0, 20);
 
     }
 
     /**
      * Force immediate replacement of all blocks burnt in the specified world
-     * 
+     *
      * @param worldConfig
      *            The world in which to replace the blocks.
      */
@@ -142,7 +128,7 @@ public abstract class BurntBlockManager
 
     /**
      * Record a burnt block.
-     * 
+     *
      * @param block
      *            The block to be recorded.
      */
@@ -161,7 +147,7 @@ public abstract class BurntBlockManager
     /**
      * Add a block to the list of burnt blocks to be replaced, and remove it
      * from the world.
-     * 
+     *
      * @param block
      *            The block to add.
      */
@@ -178,7 +164,7 @@ public abstract class BurntBlockManager
 
     /**
      * Get whether the location is close to a recently burnt block.
-     * 
+     *
      * @param location
      *            The location to check.
      * @return Whether the location is close to a recently burnt block.
@@ -190,7 +176,7 @@ public abstract class BurntBlockManager
 
     /**
      * Get whether there is no recorded blocks to be replaced.
-     * 
+     *
      * @return Whether there is no recorded blocks to be replaced.
      */
     public static boolean isIndexEmpty()
@@ -200,7 +186,7 @@ public abstract class BurntBlockManager
 
     /**
      * Get whether the block was recently burnt and should burn again.
-     * 
+     *
      * @param block
      *            The block.
      * @return Whether the block was recently burnt.

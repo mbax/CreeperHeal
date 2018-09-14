@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * 2-D map, allowing for fast neighbor search. The map is divided in zones, and
  * in each zone there is a list of Location.
- * 
+ *
  * @param <T>
  *            The type of the data stored for each point.
  * @author nitnelave
@@ -20,12 +20,12 @@ public abstract class NeighborFinder<T>
      * The size of each zone.
      */
     private static final int BLOCK_SIZE = 64;
-    protected HashMap<Point, ArrayList<T>> map = new HashMap<Point, ArrayList<T>>();
+    protected HashMap<Point, ArrayList<T>> map = new HashMap<>();
 
     /**
      * Add an element to the map. It is placed in the correct zone, created if
      * necessary.
-     * 
+     *
      * @param el
      *            The element.
      * @param x
@@ -41,7 +41,7 @@ public abstract class NeighborFinder<T>
         ArrayList<T> list = map.get(p);
         if (list == null)
         {
-            list = new ArrayList<T>();
+            list = new ArrayList<>();
             map.put(p, list);
         }
         list.add(el);
@@ -50,7 +50,7 @@ public abstract class NeighborFinder<T>
     /**
      * Remove an element from the map. It must be in the zone at the x, y
      * coordinate.
-     * 
+     *
      * @param el
      *            The element to remove.
      * @param x
@@ -72,7 +72,7 @@ public abstract class NeighborFinder<T>
     /**
      * Get whether the location is "close" to an element. The actual definition
      * of "close" is in the overridden methods of the children classes.
-     * 
+     *
      * @param loc
      *            The point to check for neighbors.
      * @return Whether the location is close to an element.
@@ -86,7 +86,7 @@ public abstract class NeighborFinder<T>
      * Get a neighbor of the location provided. It is not guaranteed to be the
      * closest, but it is an element which satisfies the condition of a
      * neighbor.
-     * 
+     *
      * @param loc
      *            The location to check for neighbors.
      * @return A neighboring element, null if no such element exists.
@@ -115,7 +115,7 @@ public abstract class NeighborFinder<T>
 
     /**
      * Get whether the map is completely empty (no zones).
-     * 
+     *
      * @return Whether the map is empty.
      */
     public boolean isEmpty()

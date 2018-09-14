@@ -14,14 +14,20 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 /**
  * Represents an explosion, with the list of blocks destroyed, the time of the
  * explosion, and the radius.
- * 
+ *
  * @author nitnelave
- * 
+ *
  */
 public class CreeperExplosion
 {
@@ -33,12 +39,12 @@ public class CreeperExplosion
     private int locWeight = 0;
     private double radius = 0;
     private final WorldConfig world;
-    private final HashSet<ShortLocation> checked = new HashSet<ShortLocation>();
+    private final HashSet<ShortLocation> checked = new HashSet<>();
     private ReplacementTimer timer;
 
     /**
      * Constructor.
-     * 
+     *
      * @param loc
      *            The location of the explosion.
      */
@@ -47,14 +53,14 @@ public class CreeperExplosion
         world = CreeperConfig.getWorld(loc.getWorld());
         timer = new ReplacementTimer(new Date(new Date().getTime() + 1000
                                               * CreeperConfig.getInt(CfgVal.WAIT_BEFORE_HEAL)), world.isRepairTimed());
-        blockList = new LinkedList<Replaceable>();
+        blockList = new LinkedList<>();
         this.loc = loc;
     }
 
     /**
      * Add blocks to an explosion, and reset the timer to the time of the last
      * explosion.
-     * 
+     *
      * @param blocks
      *            The list of blocks to add.
      */
@@ -73,13 +79,13 @@ public class CreeperExplosion
         if (CreeperConfig.getBool(CfgVal.EXPLODE_OBSIDIAN))
             checkForObsidian();
 
-        Collections.sort(blockList, new CreeperComparator(loc));
+        blockList.sort(new CreeperComparator(loc));
         radius = computeRadius();
     }
 
     /**
      * Get the time of the explosion.
-     * 
+     *
      * @return The time of the explosion.
      */
     public Date getTime()
@@ -103,7 +109,7 @@ public class CreeperExplosion
 
     /**
      * Get the location of the explosion.
-     * 
+     *
      * @return The location of the explosion.
      */
     public Location getLocation()
@@ -114,7 +120,7 @@ public class CreeperExplosion
     /**
      * Get the radius of the explosion (i.e. the distance between the location
      * and the furthest block).
-     * 
+     *
      * @return The radius of the explosion.
      */
     public double getRadius()
@@ -147,8 +153,6 @@ public class CreeperExplosion
 
     /**
      * Replace the first block of the list.
-     * 
-     * @return False if the list is now empty.
      */
     private void replace_one_block()
     {
@@ -166,7 +170,7 @@ public class CreeperExplosion
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -184,7 +188,7 @@ public class CreeperExplosion
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -225,7 +229,6 @@ public class CreeperExplosion
         double chance = ((float) CreeperConfig.getInt(CfgVal.OBSIDIAN_CHANCE)) / 100;
         World w = loc.getWorld();
 
-        Random r = new Random(System.currentTimeMillis());
         boolean table = CreeperConfig.getBool(CfgVal.OBSIDIAN_TABLE);
 
         for (int i = loc.getBlockX() - radius; i < loc.getBlockX() + radius; i++)
@@ -237,7 +240,7 @@ public class CreeperExplosion
                     if (l.distance(loc) > radius)
                         continue;
                     Block b = l.getBlock();
-                    if (isObsidianLike(b.getType(), table) && r.nextDouble() < chance)
+                    if (isObsidianLike(b.getType(), table) && ThreadLocalRandom.current().nextDouble() < chance)
                         record(b);
                 }
     }
@@ -245,76 +248,90 @@ public class CreeperExplosion
     private boolean isObsidianLike(Material m, boolean table)
     {
         return m == Material.OBSIDIAN
-               || (table && (m == Material.ENCHANTMENT_TABLE || m == Material.ENDER_CHEST));
+               || (table && (m == Material.ENCHANTING_TABLE || m == Material.ENDER_CHEST));
     }
 
     /**
      * Record one block and remove it. If it is protected, add to the
      * replace-immediately list. Check for dependent blocks around.
-     * 
+     *
      * @param block
      *            The block to record.
      */
     public void record(Block block)
     {
-    	if (block.getType() == Material.PORTAL)
-    		return;
-    	
+        if (block.getType() == Material.NETHER_PORTAL || checked.contains(new ShortLocation(block)))
+            return;
+
         CreeperBlock cBlock = CreeperBlock.newBlock(block.getState());
 
-        if (cBlock == null || checked.contains(new ShortLocation(block)))
+        if (cBlock == null)
             return;
 
-        checked.add(new ShortLocation(block));
-
-        if ((CreeperConfig.getBool(CfgVal.PREVENT_CHAIN_REACTION) && block.getType().equals(Material.TNT))
-            || world.isProtected(block))
-        {
-            ToReplaceList.addToReplace(cBlock);
-            cBlock.remove();
-            return;
-        }
-
-        BlockId id = new BlockId(block);
-        if (!world.isBlackListed(id))
-        {
-            // The block should be replaced.
-
-            for (NeighborBlock b : cBlock.getDependentNeighbors())
-                if (b.isNeighbor())
-                    record(b.getBlock());
-
-            blockList.add(cBlock);
-            cBlock.remove();
-        }
-        else if (CreeperConfig.getBool(CfgVal.DROP_DESTROYED_BLOCKS))
-        {
-            cBlock.drop(false);
-            cBlock.remove();
-
-        }
-
+        record(cBlock);
     }
 
     /**
      * Add a Replaceable to the list, and remove it from the world.
-     * 
-     * @param block
+     *
+     * @param replaceable
      *            The Replaceable to add.
      */
-    public void record(Replaceable block)
+    public void record(Replaceable replaceable)
     {
-        if (block != null)
+        if (replaceable == null || replaceable.getType() == Material.NETHER_PORTAL)
+            return;
+
+        ShortLocation location = new ShortLocation(replaceable.getLocation());
+
+        if (checked.contains(location))
+            return;
+
+        checked.add(location);
+
+        if (replaceable instanceof CreeperMultiblock) {
+            ((CreeperMultiblock) replaceable).dependents.forEach(dependent -> checked.add(new ShortLocation(dependent.getLocation())));
+        }
+
+        if (!(replaceable instanceof CreeperBlock)) {
+            blockList.add(replaceable);
+            replaceable.remove();
+            return;
+        }
+
+        CreeperBlock creeperBlock = (CreeperBlock) replaceable;
+
+        if ((CreeperConfig.getBool(CfgVal.PREVENT_CHAIN_REACTION) && replaceable.getType().equals(Material.TNT))
+                || world.isProtected(replaceable.getBlock()))
         {
-            blockList.add(block);
-            block.remove();
+            ToReplaceList.addToReplace(creeperBlock);
+            replaceable.remove();
+            return;
+        }
+
+        if (!world.isBlackListed(replaceable.getType()))
+        {
+            // The block should be replaced.
+
+            for (NeighborBlock neighborBlock : creeperBlock.getDependentNeighbors())
+                if (neighborBlock.isNeighbor())
+                    record(neighborBlock.getBlock());
+
+            blockList.add(replaceable);
+            replaceable.remove();
+        }
+        else if (CreeperConfig.getBool(CfgVal.DROP_DESTROYED_BLOCKS))
+        {
+            replaceable.drop(false);
+            replaceable.remove();
+
         }
     }
 
     /**
      * Check if the explosion has blocks to repair, and repair them (or one of
      * them in case of block per block).
-     * 
+     *
      * @return False if the explosion has not started its replacements yet
      *         because it is not time.
      */
@@ -337,7 +354,7 @@ public class CreeperExplosion
     /**
      * Get whether the explosion has started replacing (only in block per block
      * mode).
-     * 
+     *
      * @return True if the explosion has started replacing blocks
      */
     public boolean hasStartedReplacing()
@@ -349,7 +366,7 @@ public class CreeperExplosion
 
     /**
      * Get whether the list of blocks to be replaced is empty.
-     * 
+     *
      * @return Whether the list is empty.
      */
     public boolean isEmpty()

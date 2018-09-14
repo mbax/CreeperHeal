@@ -21,9 +21,9 @@ import com.nitnelave.CreeperHeal.utils.CreeperPlayer.WarningCause;
 
 /**
  * A class to handle custom messages to players.
- * 
+ *
  * @author nitnelave
- * 
+ *
  */
 public abstract class CreeperMessenger
 {
@@ -36,7 +36,7 @@ public abstract class CreeperMessenger
      */
     private final static String[] variables = { "WORLD", "PLAYER", "TARGET", "MOB", "BLOCK" };
 
-    private static List<CreeperPlayer> warnList = new LinkedList<CreeperPlayer>();
+    private static List<CreeperPlayer> warnList = new LinkedList<>();
 
     static
     {
@@ -85,7 +85,7 @@ public abstract class CreeperMessenger
      * Create a formatted string ready for sending to a player or to the
      * console. All the instances of formatting keywords are replaced by the
      * values provided if specified.
-     * 
+     *
      * @param type
      *            The message type, corresponding to the property key in the
      *            file.
@@ -118,7 +118,7 @@ public abstract class CreeperMessenger
     /**
      * Get the message that should be sent to a player/console after an event,
      * as a formatted string.
-     * 
+     *
      * @param cause
      *            The reason for the message.
      * @param offender
@@ -175,7 +175,7 @@ public abstract class CreeperMessenger
 
     /**
      * Send a warning to a player, and alert all those concerned by the message.
-     * 
+     *
      * @param cause
      *            The reason for the message.
      * @param offender
@@ -201,7 +201,7 @@ public abstract class CreeperMessenger
     /**
      * Remove a player from the list of players that are warned of an
      * infraction.
-     * 
+     *
      * @param player
      *            The player to remove.
      */
@@ -212,7 +212,7 @@ public abstract class CreeperMessenger
 
     /**
      * Check if the player can be warned about infractions, and register him.
-     * 
+     *
      * @param player
      *            The player to add.
      */

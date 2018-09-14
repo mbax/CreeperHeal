@@ -11,17 +11,15 @@ import org.bukkit.plugin.Plugin;
 
 /**
  * This class handles all the interaction with external plugins.
- * 
+ *
  * @author nitnelave
- * 
+ *
  */
 public class PluginHandler
 {
 
     private static MobArenaHandler maHandler = null;
     private static LWC lwc = null;
-
-    private static final boolean spout;
 
     static
     {
@@ -32,7 +30,6 @@ public class PluginHandler
         if (detectPlugin("MobArena") != null)
             maHandler = new MobArenaHandler();
 
-        spout = detectPlugin("Spout") != null;
     }
 
     /*
@@ -49,7 +46,7 @@ public class PluginHandler
 
     /**
      * Get whether the block is protected by LWC or Lockette.
-     * 
+     *
      * @param block
      *            The block to check.
      * @return Whether the block is protected.
@@ -61,32 +58,14 @@ public class PluginHandler
 
     /**
      * Get whether the block is inside a mob arena.
-     * 
+     *
      * @param location
      *            The location of the block.
      * @return Whether the block is inside an arena.
      */
     public static boolean isInArena(Location location)
     {
-        if (maHandler != null)
-            if (maHandler.inRegion(location))
-                return true; //Explosion inside a mob arena
-        return false;
-    }
-
-    /**
-     * Checks if is Factions enabled.
-     *
-     * @return true, if Factions is enabled
-     */
-    public static boolean isFactionsEnabled()
-    {
-        return detectPlugin("Factions") != null;
-    }
-
-    public static boolean isSpoutEnabled()
-    {
-        return spout;
+        return maHandler != null && maHandler.inRegion(location);
     }
 
 }

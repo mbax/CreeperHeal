@@ -25,8 +25,8 @@ public class CHExplosionRecordEvent extends Event implements Cancellable
 
     public CHExplosionRecordEvent(List<Block> blocks, Location location, ExplosionReason reason)
     {
-        this.healBlocks = new ArrayList<Block>(blocks);
-        this.protectBlocks = new ArrayList<Block>();
+        this.healBlocks = new ArrayList<>(blocks);
+        this.protectBlocks = new ArrayList<>();
         this.location = location;
         this.reason = reason;
     }
@@ -55,14 +55,14 @@ public class CHExplosionRecordEvent extends Event implements Cancellable
     }
 
     /**
-     * Blocks removed from this list will explode naturally if they were in the 
+     * Blocks removed from this list will explode naturally if they were in the
      * explosion.
-     * 
+     *
      * Adding blocks to this list will mark them for deletion (if normally exploded
      * (config dependent)), then healed when appropriate.
-     * 
+     *
      * Recommended to use protectBlock, processBlock and explodeBlock for readability.
-     * 
+     *
      * @return A mutable list of blocks that are currently listed for CreeperHeal
      * processing (not guaranteed to heal).
      **/
@@ -107,7 +107,7 @@ public class CHExplosionRecordEvent extends Event implements Cancellable
         if(!protectBlocks.contains(block))
             protectBlocks.add(block);
     }
-    
+
     /**
      * Adds the block to the list for CreeperHeal to process (not guaranteed to heal
      * depends on config).
@@ -119,7 +119,7 @@ public class CHExplosionRecordEvent extends Event implements Cancellable
         protectBlocks.remove(block);
     }
 
-    /** 
+    /**
      * Prevents CreeperHeal processing the block, letting minecraft/bukkit/plugins
      * deal with the block as appropriate.
      */

@@ -20,9 +20,9 @@ import java.util.logging.Logger;
 
 /**
  * Configuration management class.
- * 
+ *
  * @author nitnelave
- * 
+ *
  */
 public abstract class CreeperConfig
 {
@@ -32,9 +32,9 @@ public abstract class CreeperConfig
                     ADVANCED_FILE = new File(CreeperHeal.getCHFolder()
                                              + "/advanced.yml");
     private static final Logger LOG = Logger.getLogger("Minecraft");
-    private static final Map<String, WorldConfig> world_config = new HashMap<String, WorldConfig>();
-    private static final Map<String, ConfigValue<Boolean>> booleans = new HashMap<String, ConfigValue<Boolean>>();
-    private static final Map<String, ConfigValue<Integer>> integers = new HashMap<String, ConfigValue<Integer>>();
+    private static final Map<String, WorldConfig> world_config = new HashMap<>();
+    private static final Map<String, ConfigValue<Boolean>> booleans = new HashMap<>();
+    private static final Map<String, ConfigValue<Integer>> integers = new HashMap<>();
     private static final YamlConfiguration config = new YamlConfiguration(),
                     advanced = new YamlConfiguration();
 
@@ -91,7 +91,7 @@ public abstract class CreeperConfig
 
     /**
      * Get the boolean value associated with the CfgVal.
-     * 
+     *
      * @param val
      *            The config key.
      * @return The boolean value.
@@ -106,7 +106,7 @@ public abstract class CreeperConfig
 
     /**
      * Get the int value associated with the CfgVal.
-     * 
+     *
      * @param val
      *            The config key.
      * @return The int value.
@@ -121,7 +121,7 @@ public abstract class CreeperConfig
 
     /**
      * Set the boolean value associated with the key.
-     * 
+     *
      * @param val
      *            The key
      * @param value
@@ -137,7 +137,7 @@ public abstract class CreeperConfig
 
     /**
      * Set the int value associated with the key.
-     * 
+     *
      * @param val
      *            The key
      * @param value
@@ -307,7 +307,7 @@ public abstract class CreeperConfig
     /**
      * Load a world configuration file into memory the first time, and return
      * the configuration.
-     * 
+     *
      * @param world
      *            The world to load.
      * @return The world configuration file.
@@ -320,7 +320,7 @@ public abstract class CreeperConfig
     /**
      * Load a world configuration file into memory the first time, and return
      * the configuration.
-     * 
+     *
      * @param name
      *            The name of the world to be loaded.
      * @return The world configuration file.
@@ -348,7 +348,7 @@ public abstract class CreeperConfig
 
     /**
      * Gets the command alias.
-     * 
+     *
      * @return The command alias.
      */
     public static String getAlias()
@@ -358,7 +358,7 @@ public abstract class CreeperConfig
 
     /**
      * Gets the list of worlds recorded.
-     * 
+     *
      * @return The list of worlds.
      */
     public static Collection<WorldConfig> getWorlds()

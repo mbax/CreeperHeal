@@ -5,7 +5,7 @@ import org.bukkit.block.BlockFace;
 
 /**
  * Represents a possibly dependent neighbor block. Example of use :
- * 
+ *
  * <pre>
  * {@code
  * Block solidBlock;
@@ -16,9 +16,9 @@ import org.bukkit.block.BlockFace;
  *   // neighbor depends on solidBlock
  * }
  * </pre>
- * 
+ *
  * @author nitnelave
- * 
+ *
  */
 public class NeighborBlock
 {
@@ -27,7 +27,7 @@ public class NeighborBlock
 
     /**
      * Constructor.
-     * 
+     *
      * @param block
      *            The block represented, the one that is possibly dependent.
      * @param face
@@ -42,21 +42,18 @@ public class NeighborBlock
     /**
      * Check if the represented block is a dependent block and that it's
      * dependent face matches the one defined in the constructor.
-     * 
+     *
      * @return Whether this block depends on the block provided in the
      *         constructor.
      */
     public boolean isNeighbor()
     {
-        if (block instanceof CreeperRail && ((CreeperRail) block).isAscending())
-            return true;
-
         return block != null && block.getAttachingFace() == face.getOppositeFace();
     }
 
     /**
      * Get the represented block.
-     * 
+     *
      * @return The represented block.
      */
     public Block getBlock()

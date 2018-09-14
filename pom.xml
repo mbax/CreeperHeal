@@ -22,8 +22,6 @@
     </developer>
   </developers>
   <properties>
-    <!--maven variable which points to your local repository -->
-    <internal.repo.path>${project.basedir}/mvn-repo</internal.repo.path>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->
     <github.global.server>github</github.global.server>
@@ -40,14 +38,20 @@
   <packaging>jar</packaging>
   <url>https://github.com/nitnelave/CreeperHeal</url>
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
@@ -108,13 +112,6 @@
       </plugin>
     </plugins>
   </build>
-  <distributionManagement>
-    <repository>
-      <id>internal.repo</id>
-      <name>Internal Repository</name>
-      <url>file://${internal.repo.path}</url>
-    </repository>
-  </distributionManagement>
   <repositories>
     <repository>
         <id>spigot-repo</id>
@@ -150,32 +147,11 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/LWC.jar</systemPath>
     </dependency>
-    <dependency>
-      <groupId>com.massivecraft.mcore</groupId>
-      <artifactId>MCore</artifactId>
-      <version>2.7.5</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/mcore.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>com.massivecraft.factions</groupId>
-      <artifactId>Factions</artifactId>
-      <version>2.7.5</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/Factions.jar</systemPath>
-    </dependency>
     <!--Spigot API-->
     <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
-        <version>1.11-R0.1-SNAPSHOT</version>
-        <scope>provided</scope>
-    </dependency>
-    <!--Bukkit API-->
-    <dependency>
-        <groupId>org.bukkit</groupId>
-        <artifactId>bukkit</artifactId>
-        <version>1.11-R0.1-SNAPSHOT</version>
+        <version>1.13.1-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
   </dependencies>

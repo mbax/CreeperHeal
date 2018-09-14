@@ -17,9 +17,9 @@ import java.util.Set;
 
 /**
  * A utility class for common tasks used in several places.
- * 
+ *
  * @author nitnelave
- * 
+ *
  */
 public abstract class CreeperUtils
 {
@@ -47,7 +47,7 @@ public abstract class CreeperUtils
 
     /**
      * Concatenate two arrays.
-     * 
+     *
      * @param <T>
      *            The type of the array elements.
      * @param first
@@ -66,7 +66,7 @@ public abstract class CreeperUtils
 
     /**
      * Create a final HashSet from a collection of elements.
-     * 
+     *
      * @param <T>
      *            The type of the set elements.
      * @param elements
@@ -75,7 +75,7 @@ public abstract class CreeperUtils
      */
     public static <T> Set<T> createFinalHashSet(T... elements)
     {
-        Set<T> set = new HashSet<T>(elements.length);
+        Set<T> set = new HashSet<>(elements.length);
 
         Collections.addAll(set, elements);
 
