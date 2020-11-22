@@ -31,14 +31,12 @@ public class CreeperTag implements Tag<Material>
                     Material.LIME_WALL_BANNER, Material.MAGENTA_WALL_BANNER, Material.ORANGE_WALL_BANNER, Material.PINK_WALL_BANNER,
                     Material.PURPLE_WALL_BANNER, Material.RED_WALL_BANNER, Material.WHITE_WALL_BANNER, Material.YELLOW_WALL_BANNER);
 
-    public static final CreeperTag DOUBLE_FLOWERS =
-            new CreeperTag("double_flowers", Material.SUNFLOWER, Material.LILAC, Material.ROSE_BUSH, Material.PEONY);
-
     private final NamespacedKey key;
     private final Set<Material> tagged;
 
     private CreeperTag(String key, Material... elements)
     {
+        //noinspection deprecation
         this.key = new NamespacedKey("creeperheal", key);
         tagged = CreeperUtils.createFinalHashSet(elements);
     }

@@ -70,6 +70,15 @@ public class CreeperArmorStand implements Replaceable
             }
         }
 
+        for (EquipmentSlot slot : EquipmentSlot.values())
+        {
+            for (ArmorStand.LockType lockType : ArmorStand.LockType.values())
+            {
+                if (stand.hasEquipmentLock(slot, lockType))
+                    s.addEquipmentLock(slot, lockType);
+            }
+        }
+
         s.teleport(stand.getLocation());
         return true;
     }

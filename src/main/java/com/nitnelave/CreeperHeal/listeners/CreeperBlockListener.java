@@ -29,7 +29,7 @@ public class CreeperBlockListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBurn(BlockBurnEvent event)
     {
-        WorldConfig world = CreeperConfig.getWorld(event.getBlock().getLocation().getWorld());
+        WorldConfig world = CreeperConfig.getWorld(event.getBlock().getWorld());
 
         if (world.getBool(WCfgVal.FIRE) && !world.isProtected(event.getBlock())
             && !FactionHandler.shouldIgnore(event.getBlock(), world))

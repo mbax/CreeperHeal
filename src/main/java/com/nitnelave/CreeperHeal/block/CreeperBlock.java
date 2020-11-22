@@ -55,14 +55,15 @@ public class CreeperBlock implements Replaceable
      * These blocks (may) need a block under them not to drop.
      */
     private static final Set<Material> DEPENDENT_DOWN_BLOCKS =
-            CreeperUtils.createFinalHashSet(Material.BROWN_MUSHROOM, Material.CACTUS,
-                    Material.CHORUS_FLOWER, Material.CHORUS_PLANT, Material.COMPARATOR,
+            CreeperUtils.createFinalHashSet(Material.BROWN_MUSHROOM, Material.CACTUS, Material.CHORUS_FLOWER,
+                    Material.CHORUS_PLANT, Material.COMPARATOR, Material.CRIMSON_FUNGUS, Material.CRIMSON_ROOTS,
                     Material.DEAD_BUSH, Material.FERN, Material.GRASS, Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
                     Material.LARGE_FERN, Material.LIGHT_WEIGHTED_PRESSURE_PLATE, Material.LILY_PAD,
-                    Material.NETHER_WART, Material.NETHER_WART_BLOCK,
+                    Material.NETHER_SPROUTS, Material.NETHER_WART, Material.NETHER_WART_BLOCK,
                     Material.RED_MUSHROOM, Material.REDSTONE_WIRE, Material.REPEATER, Material.SNOW,
                     Material.STONE_PRESSURE_PLATE, Material.SEAGRASS, Material.SUGAR_CANE,
-                    Material.TALL_GRASS, Material.TALL_SEAGRASS, Material.TRIPWIRE);
+                    Material.TALL_GRASS, Material.TALL_SEAGRASS, Material.TRIPWIRE, Material.TWISTING_VINES_PLANT,
+                    Material.WARPED_FUNGUS, Material.WARPED_ROOTS, Material.WEEPING_VINES_PLANT);
     /*
      * These blocks are dependent on another block
      */
@@ -188,9 +189,8 @@ public class CreeperBlock implements Replaceable
     private static boolean isDependentDown(Material type)
     {
         if (Tag.SAPLINGS.isTagged(type) || Tag.RAILS.isTagged(type) || Tag.CARPETS.isTagged(type) || Tag.DOORS.isTagged(type)
-                || Tag.WOODEN_PRESSURE_PLATES.isTagged(type)
-                || CreeperTag.STANDING_BANNERS.isTagged(type) || Tag.FLOWERS.isTagged(type)
-                || CreeperTag.DOUBLE_FLOWERS.isTagged(type) || Tag.STANDING_SIGNS.isTagged(type)
+                || Tag.WOODEN_PRESSURE_PLATES.isTagged(type) || CreeperTag.STANDING_BANNERS.isTagged(type)
+                || Tag.FLOWERS.isTagged(type) || Tag.STANDING_SIGNS.isTagged(type)
                 || (Tag.CORAL_PLANTS.isTagged(type) && !Tag.WALL_CORALS.isTagged(type))
                 || Tag.STANDING_SIGNS.isTagged(type) || Tag.CROPS.isTagged(type)) {
             return true;
