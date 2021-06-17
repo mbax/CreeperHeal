@@ -3,10 +3,10 @@ package com.nitnelave.CreeperHeal.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.massivecraft.factions.Board;
+import com.massivecraft.factions.FLocation;
 import org.bukkit.block.Block;
 
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.massivecore.ps.PS;
 import com.nitnelave.CreeperHeal.PluginHandler;
 import com.nitnelave.CreeperHeal.config.WCfgVal;
 import com.nitnelave.CreeperHeal.config.WorldConfig;
@@ -57,7 +57,7 @@ public abstract class FactionHandler
             return wild;
 
         for (Block block : list)
-            if (wild != BoardColl.get().getFactionAt(PS.valueOf(block.getLocation())).isNone())
+            if (wild != Board.getInstance().getFactionAt(new FLocation(block.getLocation())).isWilderness())
                 return false;
         return true;
     }
